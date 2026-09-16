@@ -266,6 +266,29 @@ input, select, textarea {
 .field-row { display: flex; gap: 12px; }
 .field-row .field { flex: 1; }
 
+.quick-dates {
+  display: flex;
+  gap: 8px;
+  margin: -6px 0 14px;
+}
+.quick-date-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.quick-date-btn:hover { background: var(--border); }
+.quick-date-btn.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+
 .checkbox-field {
   flex-direction: row;
   align-items: center;

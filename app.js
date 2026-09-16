@@ -46,6 +46,11 @@
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   }
 
+  function toDateStr(d) {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
   // ---------- Due date helpers ----------
   function getDueTimestamp(task) {
     if (!task.dueDate) return null;
@@ -253,13 +258,10 @@
     else if (task.repeat === "monthly") date.setMonth(date.getMonth() + 1);
     else return null;
 
-    const pad = (n) => String(n).padStart(2, "0");
-    const newDueDate = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-
     return {
       ...task,
       id: uid(),
-      dueDate: newDueDate,
+      dueDate: toDateStr(date),
       done: false,
       createdAt: Date.now(),
     };
@@ -322,6 +324,28 @@
   const repeatInput = document.getElementById("repeatInput");
   const remindInput = document.getElementById("remindInput");
   const deleteBtn = document.getElementById("deleteBtn");
+  const quickDateBtns = document.querySelectorAll(".quick-date-btn");
+
+  function updateQuickDateActive() {
+    const val = dueDateInput.value;
+    quickDateBtns.forEach((btn) => {
+      const offset = Number(btn.dataset.offset);
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      btn.classList.toggle("active", !!val && val === toDateStr(d));
+    });
+  }
+
+  quickDateBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const offset = Number(btn.dataset.offset);
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      dueDateInput.value = toDateStr(d);
+      updateQuickDateActive();
+    });
+  });
+  dueDateInput.addEventListener("input", updateQuickDateActive);
 
   function openAddModal() {
     editingId = null;
@@ -332,6 +356,7 @@
     remindInput.checked = true;
     deleteBtn.hidden = true;
     modalOverlay.hidden = false;
+    updateQuickDateActive();
     setTimeout(() => titleInput.focus(), 50);
   }
 
@@ -350,6 +375,7 @@
     remindInput.checked = task.remind !== false;
     deleteBtn.hidden = false;
     modalOverlay.hidden = false;
+    updateQuickDateActive();
     setTimeout(() => titleInput.focus(), 50);
   }
 
