@@ -1,12 +1,10 @@
 name: Deploy to GitHub Pages
 
 on:
+  push:
+    branches:
+      - claude/sleepy-edison-x6cmew
   workflow_dispatch:
-    inputs:
-      ref:
-        description: 'Branch or ref to deploy'
-        required: false
-        default: 'claude/daily-todo-reminder-app-sm7eja'
 
 permissions:
   contents: read
@@ -25,8 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/configure-pages@v5
         with:
           enablement: true
