@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>待辦提醒</title>
+<meta name="description" content="日常、生活與工作用的待辦事項提醒 App" />
+<meta name="theme-color" content="#0095E9" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <h1>📝 待辦提醒</h1>
+    <button id="themeToggle" class="icon-btn" title="切換深色/淺色模式" aria-label="切換主題">🌓</button>
+  </header>
+
+  <section class="stats-bar" id="statsBar"></section>
+
+  <section class="tabs" role="tablist" aria-label="分類篩選">
+    <button class="tab active" data-filter="all">全部</button>
+    <button class="tab" data-filter="today">今天</button>
+    <button class="tab" data-filter="overdue">已逾期</button>
+    <button class="tab" data-filter="daily">日常</button>
+    <button class="tab" data-filter="life">生活</button>
+    <button class="tab" data-filter="work">工作</button>
+    <button class="tab" data-filter="done">已完成</button>
+  </section>
+
+  <section class="search-row">
+    <input type="search" id="searchInput" placeholder="搜尋待辦事項..." aria-label="搜尋" />
+    <select id="sortSelect" aria-label="排序方式">
+      <option value="due">依到期時間</option>
+      <option value="priority">依優先度</option>
+      <option value="created">依建立時間</option>
+    </select>
+  </section>
+
+  <section class="list-wrap">
+    <ul id="todoList" class="todo-list"></ul>
+    <p id="emptyState" class="empty-state" hidden>目前沒有待辦事項，點右下角「＋」新增一筆吧！</p>
+  </section>
+
+  <button id="fab" class="fab" aria-label="新增待辦事項">＋</button>
+
+  <div id="modalOverlay" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">新增待辦</h2>
+        <button id="modalClose" class="icon-btn" aria-label="關閉">✕</button>
+      </div>
+      <form id="todoForm">
+        <input type="hidden" id="todoId" />
+
+        <label class="field">
+          <span>標題 *</span>
+          <input type="text" id="titleInput" required maxlength="120" placeholder="例如：交出公差堆疊分析報告" />
+        </label>
+
+        <label class="field">
+          <span>備註</span>
+          <textarea id="notesInput" rows="2" maxlength="500" placeholder="補充說明（選填）"></textarea>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>分類</span>
+            <select id="categoryInput">
+              <option value="work">工作</option>
+              <option value="life">生活</option>
+              <option value="daily">日常</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>優先度</span>
+            <select id="priorityInput">
+              <option value="high">高</option>
+              <option value="medium" selected>中</option>
+              <option value="low">低</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span>到期日期</span>
+            <input type="date" id="dueDateInput" />
+          </label>
+          <label class="field">
+            <span>到期時間</span>
+            <input type="time" id="dueTimeInput" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>重複</span>
+          <select id="repeatInput">
+            <option value="none">不重複</option>
+            <option value="daily">每天</option>
+            <option value="weekly">每週</option>
+            <option value="monthly">每月</option>
+          </select>
+        </label>
+
+        <label class="field checkbox-field">
+          <input type="checkbox" id="remindInput" checked />
+          <span>到期時發出通知提醒</span>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" id="deleteBtn" class="btn danger" hidden>刪除</button>
+          <button type="submit" class="btn primary">儲存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

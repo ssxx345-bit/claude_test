@@ -1,0 +1,14 @@
+{
+  "name": "待辦提醒",
+  "short_name": "待辦提醒",
+  "description": "日常、生活與工作用的待辦事項提醒 App",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f9",
+  "theme_color": "#0095E9",
+  "lang": "zh-Hant",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
